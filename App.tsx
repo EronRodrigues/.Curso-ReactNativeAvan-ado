@@ -1,37 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { ThemeProvider } from "styled-components/native";
-import theme from './src/theme';
-import { StatusBar } from 'expo-status-bar';
-import { useFonts, Inter_700Bold, Inter_400Regular } from '@expo-google-fonts/inter';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Routes } from './src/routes';
+import { SafeAreaView, StyleSheet, Text, View, StatusBar } from 'react-native';
+import { SignInScreen } from './src/screens/SignInScreen';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { theme } from './src/themes';
+import { HomeScreen } from './src/screens/HomeScreen';
+import { TodoProvider } from './src/context/TodoContext';
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    return <Text>loading...</Text>
-  }
-
   return (
-    <GestureHandlerRootView>
-      <ThemeProvider theme={theme}>
-        <StatusBar style="dark" translucent backgroundColor="transparent"/>
-        <Routes/>
-      </ThemeProvider>
-    </GestureHandlerRootView>
+    <PaperProvider theme={theme}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar />
+        <TodoProvider>
+          <HomeScreen />
+          {/*<SignInScreen />*/}
+        </TodoProvider>
+      </SafeAreaView>
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
